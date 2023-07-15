@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ board.name }} {% endblock %}
+
+{% block content %}
+    <ol class="breadcrumb my-4">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Boards</a></li>
+        <li class="breadcrumb-item active">{{ board.name }}</li>
+
+    </ol>
+    {% if user.is_authenticated %}
+        <a href="{% url 'create_topic' board.id %}" class="btn btn-primary">New Topic </a>
+    {% endif %}
+    <br>
+    <br>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th>Topic</th>
+            <th>Created By</th>
+            <th>Posts</th>
+            <th>Views</th>
+            <th>Created Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for topic in board.topics.all %}
+            <tr>
+                <td><a href="{% url 'topic_posts' topic.board.id topic.id %}">{{ topic.subject }}</a></td>
+                <td> {{ topic.created_by.username }}</td>
+                <td> {{ topic.posts.count }}</td>
+                <td> {{ topic.views }}</td>
+                <td>{{ topic.created_dt }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+
+    <a href="{% url 'home' %}" class="btn btn-danger"> Go Back </a>
+{% endblock %}

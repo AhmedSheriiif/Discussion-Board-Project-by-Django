@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ user.username }} {% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h2>{{ user.username }}</h2>
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+        {% include 'includes/form.html' %}
+        <button type="submit" class="btn btn-success"> Update Account </button>
+    </form>
+</div>
+{% endblock %}

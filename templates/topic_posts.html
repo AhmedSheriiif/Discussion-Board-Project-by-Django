@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {{ board.name }} {% endblock %}
+
+{% block content %}
+    <ol class="breadcrumb my-4">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Boards</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'board_topics' topic.board.pk %}">{{ topic.board.name }}</a></li>
+        <li class="breadcrumb-item">{{ topic.subject }}</li>
+    </ol>
+
+
+    <div class="mb-4">
+        <a href="{% url 'reply_topic' topic.board.id topic.id %}" class="btn btn-primary"> Reply </a>
+    </div>
+
+    {% for post in topic.posts.all %}
+        <div class="row border mb-2">
+            <div class="col-2">
+                <img src="{% static 'img/user_icon.png' %}" class="w-100">
+            </div>
+            <div class="col-10">
+                <p class="font-weight-bold"> {{ post.created_by.username }}</p>
+                <p> {{ post.message }}</p>
+                <p> {{ post.created_dt }}</p>
+
+                {% if user == post.created_by %}
+                    <a href="{% url 'edit_post' post.id %}" class="btn btn-info"> Edit </a>
+                {% endif %}
+            </div>
+
+
+        </div>
+
+    {% endfor %}
+{% endblock %}
